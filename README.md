@@ -14,6 +14,7 @@ This module will install and manage App Dynamics Agents.
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
+7. [Todo - Agents to be added](#todo)
 
 ## Description
 
@@ -85,40 +86,40 @@ Classes:
 ### Parameters
 
 #### Machine Agent
-##### machine_path
+##### `machine_path`
 This value is used to create the hierarchy infrastructure view in the UI for this machine. Each hierarchy level should be separated with a vertical bar ("|"). For example, if this machine belongs to "DataRack1" and it is located in "Virginia Data Center", then the machine path could be set to "Virginia Data Center|DataRack1|Machine1" and the UI will display it in that hierarchy ("Virginia Data Center|DataRack1"). The last element of the path indicates the server name (e.g., "Machine1") and appears as the name on the servers list in the UI.
-##### machine_agent_file_32
+##### `machine_agent_file_32`
 This is the name of the downloaded 32-bit verion of the agent that is manually stored with the module.
-##### machine_agent_file_64 
+##### `machine_agent_file_64 `
 This is the name of the downloaded 64-bit verion of the agent that is manually stored with the module.
-##### controller_host
+##### `controller_host`
 Use either the fully qualified hostname or the IP addess of the App Dynamics Controller. This is the same port that you use to access the AppDynamics browser-based User interface.
-##### controller_port 
+##### `controller_port`
 This is the http(s) port of the AppDynamics Controller.
-##### unique_host_id 
+##### `unique_host_id`
 The Machine Agent uses the Java API to get the host name of the agent. Use this option to override and set the identy.
-##### account_access_key
+##### `account_access_key`
 This key is generated at installation time and can be found by viewing the license information in the controller settings.
-##### account_name
+##### `account_name`
 If the AppDynamics Controller is running in multi-tenant mode or you are using the AppDynamics SaaS Controller, you must specify the account name for this agent to authenticate with the controller. If you are running in single-tenant mode (the default) there is no need to configure this value.
-##### sim_enabled
+##### `sim_enabled`
 If this agent is licensed for Server Monitoring, set this flag to 'true' to enable Server Monitoring expanded metrics. Default: false
-##### ssl_enabled
+##### `ssl_enabled`
 This specifies if the AppDynamics agent should use SSL (HTTPS) to connect to the Controller. Default: false
-##### enable_orchestration
+##### `enable_orchestration`
 Set this flag to 'true' to enable features required for AppDynamics Orchestration. Default: false
-##### controller_info
+##### `controller_info`
 Default: '/etc/appdynamics/machine-agent/controller-info.xml'
-##### machine_agent
+##### `machine_agent`
 Default: '/etc/sysconfig/appdynamics-machine-agent'
-##### machine_service_name
+##### `machine_service_name`
 Default: 'appdynamics-machine-agent'
 
 ## Limitations
 
 This only works for limited agents with more to be developed and added over time. Currently, the AppDynamics agent module has bee tested on the following operating systems:
 
-* RedHat 6.9
+* RPM-based Linux 64-bit Machine agent
 
 ## Development
 
@@ -127,3 +128,19 @@ Contributions to the module are welcome and appreciated. The following guideline
 * All code must have corresponding rspec tests where possible.
 * Any additional variables or classes that are added must be documented in the readme.
 * All TravisCI tests must pass.
+
+## Todo
+
+The remaining agents to add to this module include:
+* Java Agent
+* .NET Agent
+* PHP Agent
+* Machine Agent (additional Operating Systems)
+* Apache Web Server Agent
+* Database Agent
+* Analytics Agent
+* C/C++ SDK
+* Python Agent
+* Node.js Agent
+* Go SDK
+* Network Agent
