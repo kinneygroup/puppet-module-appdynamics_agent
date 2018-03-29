@@ -46,6 +46,7 @@ This module requires some setup before implementation:
 puppet module install kinneygroup-appdynamics_agent
 ```
 
+The machine agent RPM downloaded from AppDynamics. Place the machine_agent in the `Files` direcory in the module. The machine_agent_file_32/64 variable must match the file name.
 ### Beginning with appdynamics_agent  
 
 The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
@@ -53,8 +54,6 @@ The very basic steps needed for a user to get the module up and running. This ca
 ## Usage
 
 ###Basic Install
-
-* Download the required agent from AppDynamics an dplace it in the appropriate `Files` directory in this module.
 
 To use the Standalone Machine agent, add or update the values to the associated variables, either in a hiera structure or in the module:
   ```$machine_path       = 'path_to_machine',
@@ -74,6 +73,8 @@ To use the Standalone Machine agent, add or update the values to the associated 
   ```
 
 Then add `include appdynamics_agent::machine` to the profile for the host.
+
+**Note:** You can also create hiera entries using the above variables to override the values.
 
 ## Reference
 
