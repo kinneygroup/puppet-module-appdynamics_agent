@@ -1,15 +1,7 @@
 
 # appdynamics_agent
 
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://docs.puppet.com/pdk/1.0/pdk_generating_modules.html#module-contents .
-
-Below you'll find the default README template ready for some content.
-
-
-
-
-
-
+This module will install and manage App Dynamics Agents.
 
 #### Table of Contents
 
@@ -22,10 +14,13 @@ Below you'll find the default README template ready for some content.
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
+7. [Todo - Agents to be added](#todo)
 
 ## Description
 
 AppDynamics (https://www.appdynamics.com/) is a solution that provides insight into application performance through application flow maps and transaction monitoring.
+
+On first pass, this module only installs the machine agant. Additional agents will be added over time.
 
 ## Setup
 
@@ -51,51 +46,102 @@ This module requires some setup before implementation:
 puppet module install kinneygroup-appdynamics_agent
 ```
 
+The machine agent RPM downloaded from AppDynamics. Place the machine_agent in the `Files` direcory in the module. The machine_agent_file_32/64 variable must match the file name.
 ### Beginning with appdynamics_agent  
 
 The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
 
 ## Usage
 
-To use the Standalone Machine agent, add or update the values to the associated variables, either in a hiera structure or in the module:
-  ```String $machine_path,
-  String $machine_agent_file_32,
-  String $machine_agent_file_64,
-  String $controller_host,
-  String $controller_port,
-  String $unique_host_id,
-  String $account_access_key,
-  String $account_name,
-  String $sim_enabled          = 'false',
-  String $ssl_enabled          = 'false',
-  String $enable_orchestration = 'false',
-  String $controller_info      = '/etc/appdynamics/machine-agent/controller-info.xml',
-  String $machine_agent        = '/etc/sysconfig/appdynamics-machine-agent',
-  Strgin $machine_service_name = 'appdynamics-machine-agent',```
+###Basic Install
 
-Then add ```include appdynamics::machine``` to the profile for the host.
+To use the Standalone Machine agent, add or update the values to the associated variables, either in a hiera structure or in the module:
+  ```$machine_path       = 'path_to_machine',
+  $machine_agent_file_32 = 'file_name_here',
+  $machine_agent_file_64 = 'file_name_here',
+  $controller_host       = 'hostname_or_ip',
+  $controller_port       = 'controller_port',
+  $unique_host_id        = '', 
+  $account_access_key    = '',
+  $account_name          = '',
+  $sim_enabled           = false,
+  $ssl_enabled           = false,
+  $enable_orchestration  = false,
+  $controller_info       = '/etc/appdynamics/machine-agent/controller-info.xml',
+  $machine_agent         = '/etc/sysconfig/appdynamics-machine-agent',
+  $machine_service_name = 'appdynamics-machine-agent',
+  ```
+
+Then add `include appdynamics_agent::machine` to the profile for the host.
+
+**Note:** You can also create hiera entries using the above variables to override the values.
 
 ## Reference
 
-Users need a complete list of your module's classes, types, defined types providers, facts, and functions, along with the parameters for each. You can provide this list either via Puppet Strings code comments or as a complete list in the README Reference section.
+There are a number of AppDynamics Agents. Each one will be a subclass of this module.
 
-* If you are using Puppet Strings code comments, this Reference section should include Strings information so that your users know how to access your documentation.
+Classes:
 
-* If you are not using Puppet Strings, include a list of all of your classes, defined types, and so on, along with their parameters. Each element in this listing should include:
+* appdynamics_agent::machine
 
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
+### Parameters
+
+#### Machine Agent
+##### `machine_path`
+This value is used to create the hierarchy infrastructure view in the UI for this machine. Each hierarchy level should be separated with a vertical bar ("|"). For example, if this machine belongs to "DataRack1" and it is located in "Virginia Data Center", then the machine path could be set to "Virginia Data Center|DataRack1|Machine1" and the UI will display it in that hierarchy ("Virginia Data Center|DataRack1"). The last element of the path indicates the server name (e.g., "Machine1") and appears as the name on the servers list in the UI.
+##### `machine_agent_file_32`
+This is the name of the downloaded 32-bit verion of the agent that is manually stored with the module.
+##### `machine_agent_file_64 `
+This is the name of the downloaded 64-bit verion of the agent that is manually stored with the module.
+##### `controller_host`
+Use either the fully qualified hostname or the IP addess of the App Dynamics Controller. This is the same port that you use to access the AppDynamics browser-based User interface.
+##### `controller_port`
+This is the http(s) port of the AppDynamics Controller.
+##### `unique_host_id`
+The Machine Agent uses the Java API to get the host name of the agent. Use this option to override and set the identy.
+##### `account_access_key`
+This key is generated at installation time and can be found by viewing the license information in the controller settings.
+##### `account_name`
+If the AppDynamics Controller is running in multi-tenant mode or you are using the AppDynamics SaaS Controller, you must specify the account name for this agent to authenticate with the controller. If you are running in single-tenant mode (the default) there is no need to configure this value.
+##### `sim_enabled`
+If this agent is licensed for Server Monitoring, set this flag to 'true' to enable Server Monitoring expanded metrics. Default: false
+##### `ssl_enabled`
+This specifies if the AppDynamics agent should use SSL (HTTPS) to connect to the Controller. Default: false
+##### `enable_orchestration`
+Set this flag to 'true' to enable features required for AppDynamics Orchestration. Default: false
+##### `controller_info`
+Default: '/etc/appdynamics/machine-agent/controller-info.xml'
+##### `machine_agent`
+Default: '/etc/sysconfig/appdynamics-machine-agent'
+##### `machine_service_name`
+Default: 'appdynamics-machine-agent'
 
 ## Limitations
 
-This only works for limited agents on RedHat/CentOS Linux. More will be developed and added over time.
+This only works for limited agents with more to be developed and added over time. Currently, the AppDynamics agent module has bee tested on the following operating systems:
+
+* RPM-based Linux 64-bit Machine agent
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them know what the ground rules for contributing are.
+Contributions to the module are welcome and appreciated. The following guidelines are required for any code to be merged.
 
-## Release Notes/Contributors/Etc. **Optional**
+* All code must have corresponding rspec tests where possible.
+* Any additional variables or classes that are added must be documented in the readme.
+* All TravisCI tests must pass.
 
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header. 
+## Todo
+
+The remaining agents to add to this module include:
+* Java Agent
+* .NET Agent
+* PHP Agent
+* Machine Agent (additional Operating Systems)
+* Apache Web Server Agent
+* Database Agent
+* Analytics Agent
+* C/C++ SDK
+* Python Agent
+* Node.js Agent
+* Go SDK
+* Network Agent
