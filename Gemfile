@@ -39,6 +39,36 @@ puppet_type = gem_type(puppet_version)
 facter_version = ENV['FACTER_GEM_VERSION']
 hiera_version = ENV['HIERA_GEM_VERSION']
 
+group :test do
+  gem 'metadata-json-lint'
+  gem 'puppet', puppet_version
+  gem 'puppetlabs_spec_helper'
+  gem 'rake'
+  gem 'rspec-puppet-facts', '~> 1.8.0'
+  gem 'semantic_puppet'
+
+  group :lint_plugins do
+    gem 'puppet-lint-absolute_classname-check'
+    gem 'puppet-lint-duplicate_class_parameters-check'
+    gem 'puppet-lint-file_ensure-check'
+    gem 'puppet-lint-global_resource-check'
+    gem 'puppet-lint-legacy_facts-check'
+    gem 'puppet-lint-no_symbolic_file_modes-check'
+    gem 'puppet-lint-package_ensure-check'
+    gem 'puppet-lint-reference_on_declaration_outside_of_class-check'
+    gem 'puppet-lint-resource_reference_syntax'
+    gem 'puppet-lint-spaceship_operator_without_tag-check'
+    gem 'puppet-lint-strict_indent-check'
+    gem 'puppet-lint-template_file_extension-check'
+    gem 'puppet-lint-top_scope_facts-check'
+    gem 'puppet-lint-trailing_comma-check'
+    gem 'puppet-lint-trailing_newline-check'
+    gem 'puppet-lint-unquoted_string-check'
+    gem 'puppet-lint-variable_contains_upcase'
+    gem 'puppet-lint-version_comparison-check'
+  end
+end
+
 def puppet_older_than?(version)
   puppet_version = ENV['PUPPET_GEM_VERSION']
   !puppet_version.nil? &&
