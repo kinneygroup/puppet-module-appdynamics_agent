@@ -9,6 +9,7 @@ before_install:
   - gem update --system
   - gem update bundler
   - gem --version
+  - bundle update
   - bundle -v
 script:
   - 'bundle exec rake $CHECK'
@@ -27,6 +28,8 @@ matrix:
       env: CHECK="syntax lint"
     -
       env: CHECK=metadata_lint
+    -
+      env: CHECK=spec
 branches:
   only:
     - master

@@ -2,8 +2,8 @@
 #
 # This module installs and configures the machine agent for AppDynamics
 #
-# @summary The Standalone Machine Agent (Machine Agent) collects and 
-# displays CPU, Memory, Disk, and Network metrics on the Node Dashboard Server tab. 
+# @summary The Standalone Machine Agent (Machine Agent) collects and
+# displays CPU, Memory, Disk, and Network metrics on the Node Dashboard Server tab.
 #
 # @example
 #   include appdynamics_agent::machine
@@ -24,7 +24,6 @@ class appdynamics_agent::machine (
   $machine_agent          = '/etc/sysconfig/appdynamics-machine-agent',
   $machine_service_name   = 'appdynamics-machine-agent',
 ) {
-  validate_integer($controller_port)
   validate_bool($sim_enabled)
   validate_bool($ssl_enabled)
   validate_bool($enable_orchestration)
@@ -56,6 +55,7 @@ class appdynamics_agent::machine (
         provider => 'rpm',
         source   => '/tmp/appd_machine_agent.rpm',
         require  => File['/tmp/appd_machine_agent.rpm'],
+        notify   => Service[$machine_service_name],
       }
     } elsif $::facts['os']['architecture'] == i386 {
       validate_absolute_path($machine_agent_file_32)
@@ -69,19 +69,19 @@ class appdynamics_agent::machine (
         provider => 'rpm',
         source   => 'puppet:///modules/appdynamics_agent/machine_agent/linux_32_rpm',
         require  => File['/tmp/machine_agent_rpm'],
+        notify   => Service[$machine_service_name],
       }
     } else {
       notify { 'Not a supported kernel version': }
     }
 
     service { $machine_service_name:
-      ensure  => running,
-      enable  => true,
-      require => Package['appdynamics-machine-agent'],
+      ensure => running,
+      enable => true,
     }
 
     file { $controller_info:
-      ensure  => present,
+      ensure  => file,
       content => template('appdynamics_agent/machine_agent/controller-info.xml.erb'),
       mode    => '0600',
       notify  => Service[$machine_service_name],

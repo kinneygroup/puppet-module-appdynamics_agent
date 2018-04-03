@@ -4,7 +4,7 @@
   "author": "Steve Hunger",
   "summary": "Basic install and configure of the AppDynamics agent (https://www.appdynamics.com/)",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/kinneygroup/puppet-module-appdynamics_agent.git",
   "dependencies": [
 
   ],
@@ -16,19 +16,7 @@
       ]
     },
     {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
       "operatingsystem": "RedHat",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "Scientific",
       "operatingsystemrelease": [
         "7"
       ]
