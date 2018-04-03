@@ -1,6 +1,6 @@
 # appdynamics_agent::machine
 #
-# This module installes and configures the machine agent for AppDynamics
+# This module installs and configures the machine agent for AppDynamics
 #
 # @summary The Standalone Machine Agent (Machine Agent) collects and 
 # displays CPU, Memory, Disk, and Network metrics on the Node Dashboard Server tab. 
