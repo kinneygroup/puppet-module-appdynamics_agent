@@ -76,8 +76,12 @@ class appdynamics_agent::machine (
     }
 
     service { $machine_service_name:
-      ensure => running,
-      enable => true,
+      ensure     => running,
+      enable     => true,
+      provider   => 'systemd',
+      hasstatus  => false,
+      hasrestart => true,
+      loglevel   => 'debug',
     }
 
     file { $controller_info:

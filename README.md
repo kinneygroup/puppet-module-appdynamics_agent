@@ -20,19 +20,19 @@ This module will install and manage App Dynamics Agents.
 
 AppDynamics (https://www.appdynamics.com/) is a solution that provides insight into application performance through application flow maps and transaction monitoring.
 
-On first pass, this module only installs the machine agant. Additional agents will be added over time.
+On first pass, this module only installs the machine agent. Additional agents will be added over time.
 
 ## Setup
 
 ### What appdynamics_agent affects 
 
-This module configures AppDynamics agents to communicate with the controller. Becasue there are numerous agents and configurations, this module will be growing and changing over time. 
+This module configures AppDynamics agents to communicate with the controller. Because there are numerous agents and configurations, this module will be growing and changing over time. 
 
 This module requires some setup before implementation:
 
 * Hiera will need to be configured to identify the nodes configured.
-* Requires a valide Controller license.
-* Requires the contoller installed and functioning.
+* Requires a valid Controller license.
+* Requires the controller installed and functioning.
 
 ### Setup Requirements 
 
@@ -46,7 +46,7 @@ This module requires some setup before implementation:
 puppet module install kinneygroup-appdynamics_agent
 ```
 
-The machine agent RPM downloaded from AppDynamics. Place the machine_agent in the `Files` direcory in the module. The machine_agent_file_32/64 variable must match the file name.
+The machine agent RPM downloaded from AppDynamics. Place the machine_agent in the `Files` directory in the module. The machine_agent_file_32/64 variable must match the file name.
 ### Beginning with appdynamics_agent  
 
 The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
@@ -90,15 +90,15 @@ Classes:
 ##### `machine_path`
 This value is used to create the hierarchy infrastructure view in the UI for this machine. Each hierarchy level should be separated with a vertical bar ("|"). For example, if this machine belongs to "DataRack1" and it is located in "Virginia Data Center", then the machine path could be set to "Virginia Data Center|DataRack1|Machine1" and the UI will display it in that hierarchy ("Virginia Data Center|DataRack1"). The last element of the path indicates the server name (e.g., "Machine1") and appears as the name on the servers list in the UI.
 ##### `machine_agent_file_32`
-This is the name of the downloaded 32-bit verion of the agent that is manually stored with the module.
+This is the name of the downloaded 32-bit version of the agent that is manually stored with the module.
 ##### `machine_agent_file_64 `
-This is the name of the downloaded 64-bit verion of the agent that is manually stored with the module.
+This is the name of the downloaded 64-bit version of the agent that is manually stored with the module.
 ##### `controller_host`
-Use either the fully qualified hostname or the IP addess of the App Dynamics Controller. This is the same port that you use to access the AppDynamics browser-based User interface.
+Use either the fully qualified hostname or the IP address of the App Dynamics Controller. This is the same port that you use to access the AppDynamics browser-based User interface.
 ##### `controller_port`
 This is the http(s) port of the AppDynamics Controller.
 ##### `unique_host_id`
-The Machine Agent uses the Java API to get the host name of the agent. Use this option to override and set the identy.
+The Machine Agent uses the Java API to get the host name of the agent. Use this option to override and set the identity.
 ##### `account_access_key`
 This key is generated at installation time and can be found by viewing the license information in the controller settings.
 ##### `account_name`
